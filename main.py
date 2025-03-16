@@ -1,37 +1,10 @@
-"""
-    A simple calculator with the basic operations
-
-    Author: José De La Cruz
-    Created: 2019-08-02
-    Modified: 2024-12-23
-"""
 import tkinter as tk
 from tkinter import StringVar, ttk
 import math
 
 
-def click_button(caption):
-    """Insert the clicks given by the user (numbers and symbols)"""
-    global indice
-    ety_display.insert(indice, caption)
-    indice += 1
-
-
-def clear_display():
-    """Clean text box"""
-    ety_display.delete(0, tk.END)
-
-
-def undo_button():
-    """Delete the last character and/or number entered"""
-    current_display = ety_display.get()
-    clear_display()
-    # remove the last character from the expression
-    ety_display.insert(0, current_display[:-1])
-
-
 def replace_button(value):
-    """Replace 'x' by '*' and '÷' by '/'"""
+    """ Replace 'x' by '*' and '÷' by '/' """
     if value != '':
         temp = value.replace('÷', '/')
         temp = temp.replace('x', '*')
@@ -44,12 +17,50 @@ def replace_button(value):
 
 
 def replace_point_result(val):
-    """Replace point by comma of the final result"""
+    """ Replace point by comma of the final result """
     return str(val).replace('.', ',')
 
 
+def decimal_or_integer(result):
+    """ Returns the integer part of the final result """
+    decimal, entera = math.modf(result)
+    if decimal == .0:
+        return int(entera)
+    else:
+        return result
+
+
+def factorial(n):
+    """" Returns the factorial of a number """
+    n = int(n)
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+
+def click_button(caption):
+    """ Insert the clicks given by the user (numbers and symbols) """
+    global indice
+    ety_display.insert(indice, caption)
+    indice += 1
+
+
+def clear_display():
+    """ Clean text box """
+    ety_display.delete(0, tk.END)
+
+
+def undo_button():
+    """ Delete the last character and/or number entered """
+    current_display = ety_display.get()
+    clear_display()
+    # remove the last character from the expression
+    ety_display.insert(0, current_display[:-1])
+
+
 def equals_button():
-    """Perform the data operation"""
+    """ Perform the data operation """
     current_display = replace_button(ety_display.get())
     try:
         if '!' in current_display:
@@ -68,23 +79,6 @@ def equals_button():
         ety_display.insert(0, 'Error')
 
 
-def decimal_or_integer(result):
-    """Returns the integer part of the final result"""
-    decimal, entera = math.modf(result)
-    if decimal == .0:
-        return int(entera)
-    else:
-        return result
-
-
-def factorial(n):
-    n = int(n)
-    if n == 0 or n == 1:
-        return 1
-    else:
-        return n * factorial(n-1)
-
-
 if __name__ == "__main__":
     # create main window
     root = tk.Tk()
@@ -96,11 +90,11 @@ if __name__ == "__main__":
     ety_display = StringVar()
 
     # center window
-    a = 335
-    b = 405
-    x = (root.winfo_screenwidth() - a) / 2
-    y = (root.winfo_screenheight() - b) / 2
-    root.geometry('%dx%d+%d+%d' % (a, b, x, y))
+    # a = 335
+    # b = 405
+    # x = (root.winfo_screenwidth() - a) / 2
+    # y = (root.winfo_screenheight() - b) / 2
+    # root.geometry('%dx%d+%d+%d' % (a, b, x, y))
 
     # gets the index of the position within the input
     indice = 0
@@ -119,8 +113,7 @@ if __name__ == "__main__":
         background='#282828',
         foreground='#FFFFE0',
         relief='flat'
-    )
-    
+    )    
     ety_display.grid(row=0, column=0, columnspan=6, ipady=20)
 
     # row 1: button frame
